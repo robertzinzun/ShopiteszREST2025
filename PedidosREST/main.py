@@ -4,18 +4,17 @@ import uvicorn
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 # Import la clase FastAPI del framework
 from fastapi import FastAPI
-
+from routers import pedidosRouter,productosRouter,usuariosRouter
 # crear una instancia de la clase FastAPI
 app=FastAPI()
-
+app.include_router(pedidosRouter.router)
+app.include_router(productosRouter.router)
+app.include_router(usuariosRouter.router)
 @app.get("/")
 async def home():
     salida = {"mensaje": "Bienvenido a PEDIDOSREST"}
     return salida
 
-@app.post("/pedidos")
-async def crearPedido():
-    return {"mensaje":"Creando un pedido"}
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
