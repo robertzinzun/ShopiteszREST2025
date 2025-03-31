@@ -1,10 +1,12 @@
 from fastapi import APIRouter
 
+from models.PedidoModel import Item, PedidoInsert
+
 router=APIRouter(prefix="/pedidos",tags=["Pedidos"])
 
 @router.post("/")
-async def crearPedido():
-    return {"mensaje":"Creando un pedido"}
+async def crearPedido(pedido:PedidoInsert):
+    return {"mensaje":"Creando un pedido","pedido":pedido}
 
 @router.put("/")
 async def modificarPedido():
@@ -21,3 +23,8 @@ async def consultaPedidos():
 @router.get("/{idPedido}")
 async def consultarPedido(idPedido:str):
     return {"mensaje":"Consultando el pedido:"+idPedido}
+@router.put("/{idPedido}/agregarProducto")
+async def agregarProductoPedido(idPedido:str,item:Item):
+    salida={"mensaje":"Agregando un producto al pedido:"+idPedido,
+            "item":item.dict()}
+    return salida
