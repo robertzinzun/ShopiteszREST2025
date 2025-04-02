@@ -4,6 +4,8 @@ import uvicorn
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 # Import la clase FastAPI del framework
 from fastapi import FastAPI
+
+from dao.database import Conexion
 from routers import pedidosRouter,productosRouter,usuariosRouter
 # crear una instancia de la clase FastAPI
 app=FastAPI()
@@ -14,7 +16,16 @@ app.include_router(usuariosRouter.router)
 async def home():
     salida = {"mensaje": "Bienvenido a PEDIDOSREST"}
     return salida
-
+@app.on_event("startup")
+async def startup():
+    print("Conectando con MongoDB")
+    conexion=Conexion()
+    app.conexion=conexion
+    app.db=conexion.getDB()
+@app.on_event("shutdown")
+async def shutdown():
+    print("Cerrando la conexion con MongoDB")
+    app.conexion.cerrar()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
