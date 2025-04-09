@@ -18,4 +18,4 @@ class Producto(BaseModel):
     categoria:Categoria
     vendedor:Vendedor
 class ProductosSalida(Salida):
-    productos:list[Producto]
+    productos:list[Producto]|None

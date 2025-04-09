@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from bson.datetime_ms import DatetimeMS
 from datetime import datetime,date
 class Item(BaseModel):
     idProducto:int
@@ -16,6 +16,7 @@ class PedidoInsert(BaseModel):
     subtotal:float
     total:float
     estatus:str|None='Captura'
+    fechaRegistro:datetime|None=date.today()
     detalle:list[Item]
 
 class Pago(BaseModel):
@@ -40,8 +41,8 @@ class Vendedor(BaseModel):
 class PedidoSelect(BaseModel):
     idPedido:str
     fechaRegistro:datetime
-    fechaConfirmacion:datetime
-    fechaCierre:datetime
+    fechaConfirmacion:datetime|None=None
+    fechaCierre:datetime|None=None
     costosEnvio:float
     subtotal:float
     totalPagar:float
